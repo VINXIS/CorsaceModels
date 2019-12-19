@@ -7,12 +7,9 @@ export class User extends BaseEntity {
     id: number;
 
     @Column()
-    firstName: string;
+    username: string;
 
     @Column()
-    lastName: string;
-
-    @Column()
-    age: number;
+    isStaff: boolean;
 
 }
