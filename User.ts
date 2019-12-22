@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne, JoinColumn } from "typeorm";
+import {Entity, PrimaryColumn, Column, BaseEntity, OneToOne, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
 
 @Entity()
 export class User extends BaseEntity {
@@ -6,61 +6,41 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    username: string;
-
-    @Column()
-    avatar: string;
-
-    @OneToOne(type => Discord)
-    @JoinColumn()
-    discord: Discord;
+    @Column(type => OAuth)
+    discord: OAuth;
     
-    @OneToOne(type => Osu)
-    @JoinColumn()
-    osu: Osu;
+    @Column(type => OAuth)
+    osu: OAuth;
 
-    @Column({ default: Date.now() })
+    @CreateDateColumn()
     registered: Date;
     
-    @Column({ default: Date.now() })
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     lastLogin: Date;
 
 }
 
-@Entity()
-export class Discord {
+export class OAuth {
 
-    @Column()
+    @Column({ default: "" })
     userID: string;
 
-    @Column()
+    @Column({ default: "" })
+    username: string;
+    
+    @Column({ default: "" })
+    avatar: string;
+
+    @Column({ default: "" })
     accessToken: string;
 
-    @Column()
-    refreshToken: boolean;
+    @Column({ default: "" })
+    refreshToken: string;
 
-    @Column({ default: Date.now() })
+    @CreateDateColumn()
     dateAdded: Date;
 
-    @Column({ default: Date.now() })
-    lastVerified: Date;
-
-}
-
-@Entity()
-export class Osu {
-
-    @Column()
-    accessToken: string;
-
-    @Column()
-    refreshToken: boolean;
-
-    @Column({ default: Date.now() })
-    dateAdded: Date;
-
-    @Column({ default: Date.now() })
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     lastVerified: Date;
 
 }

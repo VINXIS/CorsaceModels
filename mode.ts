@@ -1,9 +1,9 @@
-import { Column, Entity, BaseEntity } from 'typeorm';
+import { Column, Entity, BaseEntity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Mode extends BaseEntity {
 
-    @Column()
+    @PrimaryColumn()
     name: string;
 
 }
