@@ -18,6 +18,23 @@ export class User extends BaseEntity {
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     lastLogin: Date;
 
+    public getInfo = function(this: User): UserInfo {
+        const info: UserInfo = {
+            discord: {
+                avatar: "https://cdn.discordapp.com/avatars/" + this.discord.userID + "/" + this.discord.avatar + ".png",
+                userID: this.discord.userID,
+                username: this.discord.username,
+            },
+            osu: {
+                avatar: this.osu.avatar,
+                userID: this.osu.userID,
+                username: this.osu.username,
+            },
+            joinDate: this.registered,
+            lastLogin: this.lastLogin,
+        }
+        return info
+    }
 }
 
 export class OAuth {
@@ -43,4 +60,19 @@ export class OAuth {
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     lastVerified: Date;
 
+}
+
+export class UserInfo {
+    discord: {
+        avatar: string,
+        userID: string,
+        username: string,
+    };
+    osu: {
+        avatar: string,
+        userID: string,
+        username: string,
+    }
+    joinDate: Date;
+    lastLogin: Date;
 }
