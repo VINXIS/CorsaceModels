@@ -48,10 +48,10 @@ export class OAuth {
     @Column({ default: "" })
     avatar: string;
 
-    @Column({ default: "" })
+    @Column({ type: "longtext", default: "" })
     accessToken: string;
 
-    @Column({ default: "" })
+    @Column({ type: "longtext", default: "" })
     refreshToken: string;
 
     @CreateDateColumn()
