@@ -1,4 +1,5 @@
-import {Entity, PrimaryColumn, Column, BaseEntity, OneToOne, JoinColumn, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from "typeorm";
+import { DemeritReport } from "./demerits";
 
 @Entity()
 export class User extends BaseEntity {
@@ -17,6 +18,9 @@ export class User extends BaseEntity {
     
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     lastLogin: Date;
+
+    @OneToMany(type => DemeritReport, demerit => demerit.user)
+    demerits: DemeritReport[];
 
     public getInfo = function(this: User): UserInfo {
         const info: UserInfo = {
