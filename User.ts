@@ -1,5 +1,6 @@
 import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from "typeorm";
 import { DemeritReport } from "./demerits";
+import { Eligibility } from "./MCA_AYIM/eligibility";
 
 @Entity()
 export class User extends BaseEntity {
@@ -22,6 +23,9 @@ export class User extends BaseEntity {
     @OneToMany(type => DemeritReport, demerit => demerit.user)
     demerits: DemeritReport[];
 
+    @OneToMany(type => Eligibility, eligibility => eligibility.user)
+    mca: Eligibility[];
+
     public getInfo = function(this: User): UserInfo {
         const info: UserInfo = {
             discord: {
@@ -36,6 +40,7 @@ export class User extends BaseEntity {
             },
             joinDate: this.registered,
             lastLogin: this.lastLogin,
+            mca: this.mca,
         }
         return info
     }
@@ -79,4 +84,5 @@ export class UserInfo {
     }
     joinDate: Date;
     lastLogin: Date;
+    mca: Eligibility[];
 }
