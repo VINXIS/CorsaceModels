@@ -3,6 +3,31 @@ import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, O
 import { DemeritReport } from "./demerits";
 import { Eligibility } from "./MCA_AYIM/eligibility";
 
+export class OAuth {
+
+    @Column({ default: "" })
+    userID: string;
+
+    @Column({ default: "" })
+    username: string;
+    
+    @Column({ default: "" })
+    avatar: string;
+
+    @Column({ type: "longtext", default: "" })
+    accessToken: string;
+
+    @Column({ type: "longtext", default: "" })
+    refreshToken: string;
+
+    @CreateDateColumn()
+    dateAdded: Date;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    lastVerified: Date;
+
+}
+
 @Entity()
 export class User extends BaseEntity {
 
@@ -45,31 +70,6 @@ export class User extends BaseEntity {
         }
         return info
     }
-}
-
-export class OAuth {
-
-    @Column({ default: "" })
-    userID: string;
-
-    @Column({ default: "" })
-    username: string;
-    
-    @Column({ default: "" })
-    avatar: string;
-
-    @Column({ type: "longtext", default: "" })
-    accessToken: string;
-
-    @Column({ type: "longtext", default: "" })
-    refreshToken: string;
-
-    @CreateDateColumn()
-    dateAdded: Date;
-
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
-    lastVerified: Date;
-
 }
 
 export class UserInfo {

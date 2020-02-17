@@ -98,7 +98,7 @@ export class Beatmap extends BaseEntity {
     passCount: number;
 
     @Column()
-    packs: string[];
+    packs: string;
 
     @Column()
     maxCombo: number;
