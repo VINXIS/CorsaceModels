@@ -1,7 +1,8 @@
 
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from "typeorm";
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, OneToOne, JoinColumn, JoinTable } from "typeorm";
 import { DemeritReport } from "./demerits";
 import { Eligibility } from "./MCA_AYIM/eligibility";
+import { GuestRequest } from "./MCA_AYIM/guest";
 
 export class OAuth {
 
@@ -49,7 +50,14 @@ export class User extends BaseEntity {
     @OneToMany(type => DemeritReport, demerit => demerit.user)
     demerits: DemeritReport[];
 
-    @OneToMany(type => Eligibility, eligibility => eligibility.user)
+    @OneToOne(type => GuestRequest, guestRequest => guestRequest.user)
+    @JoinColumn()
+    guestRequest: GuestRequest;
+
+    @OneToMany(type => Eligibility, eligibility => eligibility.user, {
+        eager: true
+    })
+    @JoinTable()
     mca: Eligibility[];
 
     public getInfo = function(this: User): UserInfo {
@@ -67,6 +75,7 @@ export class User extends BaseEntity {
             joinDate: this.registered,
             lastLogin: this.lastLogin,
             mca: this.mca,
+            guestReq: this.guestRequest
         }
         return info
     }
@@ -86,4 +95,5 @@ export class UserInfo {
     joinDate: Date;
     lastLogin: Date;
     mca: Eligibility[];
+    guestReq: GuestRequest;
 }

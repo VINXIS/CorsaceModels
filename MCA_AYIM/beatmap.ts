@@ -1,5 +1,6 @@
-import { Entity, BaseEntity, PrimaryColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, BaseEntity, PrimaryColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { Mode } from './mode';
+import { GuestRequest } from './guest';
 
 @Entity()
 export class Beatmap extends BaseEntity {
@@ -111,5 +112,8 @@ export class Beatmap extends BaseEntity {
 
     @Column()
     totalSR: number;
+
+    @OneToMany(type => GuestRequest, guestRequest => guestRequest.beatmap)
+    guestRequests: GuestRequest[]
 
 }
