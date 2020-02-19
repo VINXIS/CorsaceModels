@@ -1,11 +1,14 @@
-import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, OneToOne } from "typeorm";
+import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, OneToOne, JoinTable, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../user";
 import { Beatmap, Mode } from "./beatmap";
 
 @Entity()
 export class GuestRequest extends BaseEntity {
 
-    @PrimaryColumn({ type: "year" })
+    @PrimaryGeneratedColumn()
+    ID: number;
+
+    @Column({ type: "year" })
     year: number;
 
     @Column()
@@ -17,7 +20,10 @@ export class GuestRequest extends BaseEntity {
     @OneToOne(type => User, user => user.guestRequest)
     user: User;
 
-    @ManyToOne(type => Beatmap, beatmap => beatmap.guestRequests)
+    @ManyToOne(type => Beatmap, beatmap => beatmap.guestRequests, {
+        eager: true
+    })
+    @JoinTable()
     beatmap: Beatmap
 
 }

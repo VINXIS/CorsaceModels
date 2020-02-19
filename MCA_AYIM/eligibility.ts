@@ -1,10 +1,13 @@
-import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn } from "typeorm";
+import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../user";
 
 @Entity()
 export class Eligibility extends BaseEntity {
 
-    @PrimaryColumn({ type: "year" })
+    @PrimaryGeneratedColumn()
+    ID: number;
+
+    @Column({ type: "year" })
     year: number;
 
     @Column({ default: false })

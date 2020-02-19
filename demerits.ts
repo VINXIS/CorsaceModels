@@ -5,7 +5,7 @@ import { User } from "./user";
 export class DemeritReport extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    ID: number;
     
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     reportDate: Date;

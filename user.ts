@@ -33,7 +33,7 @@ export class OAuth {
 export class User extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    ID: number;
 
     @Column(type => OAuth)
     discord: OAuth;
@@ -50,7 +50,9 @@ export class User extends BaseEntity {
     @OneToMany(type => DemeritReport, demerit => demerit.user)
     demerits: DemeritReport[];
 
-    @OneToOne(type => GuestRequest, guestRequest => guestRequest.user)
+    @OneToOne(type => GuestRequest, guestRequest => guestRequest.user, {
+        eager: true
+    })
     @JoinColumn()
     guestRequest: GuestRequest;
 
@@ -62,6 +64,7 @@ export class User extends BaseEntity {
 
     public getInfo = function(this: User): UserInfo {
         const info: UserInfo = {
+            corsaceID: this.ID,
             discord: {
                 avatar: "https://cdn.discordapp.com/avatars/" + this.discord.userID + "/" + this.discord.avatar + ".png",
                 userID: this.discord.userID,
@@ -82,6 +85,7 @@ export class User extends BaseEntity {
 }
 
 export class UserInfo {
+    corsaceID: number;
     discord: {
         avatar: string,
         userID: string,
