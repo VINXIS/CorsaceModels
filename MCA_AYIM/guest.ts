@@ -1,7 +1,6 @@
 import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, OneToOne } from "typeorm";
 import { User } from "../user";
-import { Modes } from "./mode";
-import { Beatmap } from "./beatmap";
+import { Beatmap, Mode } from "./beatmap";
 
 @Entity()
 export class GuestRequest extends BaseEntity {
@@ -10,7 +9,7 @@ export class GuestRequest extends BaseEntity {
     year: number;
 
     @Column()
-    mode: Modes;
+    mode: Mode;
 
     @Column()
     accepted: Status;

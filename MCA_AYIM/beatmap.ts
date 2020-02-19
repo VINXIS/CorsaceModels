@@ -1,12 +1,11 @@
 import { Entity, BaseEntity, PrimaryColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { Mode } from './mode';
 import { GuestRequest } from './guest';
 
 @Entity()
 export class Beatmap extends BaseEntity {
 
     @PrimaryColumn()
-    ID: string;
+    ID: number;
 
     @Column()
     setID: number;
@@ -32,7 +31,7 @@ export class Beatmap extends BaseEntity {
     @Column()
     hpDrain: number;
 
-    @ManyToOne(type => Mode, mode => mode.beatmaps)
+    @Column()
     mode: Mode;
 
     @Column()
@@ -54,13 +53,7 @@ export class Beatmap extends BaseEntity {
     artist: string;
 
     @Column()
-    artistUnicode: string;
-
-    @Column()
-    title: string
-
-    @Column()
-    titleUnicode: string
+    title: string;
 
     @Column()
     creator: string;
@@ -70,9 +63,6 @@ export class Beatmap extends BaseEntity {
 
     @Column()
     BPM: number;
-
-    @Column()
-    source: string;
 
     @Column()
     genre: string;
@@ -98,16 +88,16 @@ export class Beatmap extends BaseEntity {
     @Column()
     passCount: number;
 
-    @Column()
+    @Column({ nullable: true })
     packs: string;
 
-    @Column()
+    @Column({ nullable: true })
     maxCombo: number;
 
-    @Column()
+    @Column({ nullable: true })
     aimSR: number;
 
-    @Column()
+    @Column({ nullable: true })
     speedSR: number;
 
     @Column()
@@ -116,4 +106,11 @@ export class Beatmap extends BaseEntity {
     @OneToMany(type => GuestRequest, guestRequest => guestRequest.beatmap)
     guestRequests: GuestRequest[]
 
+}
+
+export enum Mode {
+    "standard",
+    "taiko",
+    "fruits",
+    "mania"
 }
