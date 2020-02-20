@@ -67,10 +67,13 @@ export class User extends BaseEntity {
     commentsMade: UserComment[];
 
     @OneToMany(type => UserComment, userComment => userComment.target)
-    targets: UserComment[];
+    commentsReceived: UserComment[];
 
     @OneToMany(type => UserComment, userComment => userComment.reviewer)
     reviews: UserComment[];
+
+    @Column({ default: true })
+    canComment: boolean;
 
     public getInfo = function(this: User): UserInfo {
         const info: UserInfo = {

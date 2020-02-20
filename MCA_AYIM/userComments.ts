@@ -1,4 +1,4 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../user';
 
 @Entity()
@@ -22,11 +22,17 @@ export class UserComment extends BaseEntity {
     @ManyToOne(type => User, user => user.commentsMade, { nullable: false })
     commenter: User;
 
-    @ManyToOne(type => User, user => user.targets, { nullable: false })
+    @ManyToOne(type => User, user => user.commentsReceived, { nullable: false })
     target: User;
 
     @ManyToOne(type => User, user => user.reviews)
     reviewer: User;
+
+    @CreateDateColumn()
+    createdOn: Date;
+
+    @UpdateDateColumn()
+    updatedOn: Date;
 
 }
 
