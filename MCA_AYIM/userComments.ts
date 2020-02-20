@@ -1,5 +1,6 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../user';
+import { ModeDivision } from './modeDivision';
 
 @Entity()
 export class UserComment extends BaseEntity {
@@ -7,13 +8,19 @@ export class UserComment extends BaseEntity {
     @PrimaryGeneratedColumn()
     ID: number;
 
-    @Column()
+    @Column('text')
     comment: string;
 
     @Column({ default: false })
     isValid: boolean;
 
     @Column()
+    modeID: number;
+
+    @ManyToOne(type => ModeDivision, modeDivision => modeDivision.userComments, { 
+        nullable: false,
+        eager: true,
+    })
     mode: ModeDivision;
     
     @Column()
@@ -29,17 +36,9 @@ export class UserComment extends BaseEntity {
     reviewer: User;
 
     @CreateDateColumn()
-    createdOn: Date;
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updatedOn: Date;
+    updatedAt: Date;
 
-}
-
-export enum ModeDivision {
-    'standard',
-    'taiko',
-    'fruits',
-    'mania',
-    'storyboard'
 }
