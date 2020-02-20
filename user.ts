@@ -3,6 +3,7 @@ import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, O
 import { DemeritReport } from "./demerits";
 import { Eligibility } from "./MCA_AYIM/eligibility";
 import { GuestRequest } from "./MCA_AYIM/guest";
+import { UserComment } from "./MCA_AYIM/userComments";
 
 export class OAuth {
 
@@ -61,6 +62,15 @@ export class User extends BaseEntity {
     })
     @JoinTable()
     mca: Eligibility[];
+
+    @OneToMany(type => UserComment, userComment => userComment.commenter)
+    commentsMade: UserComment[];
+
+    @OneToMany(type => UserComment, userComment => userComment.target)
+    targets: UserComment[];
+
+    @OneToMany(type => UserComment, userComment => userComment.reviewer)
+    reviews: UserComment[];
 
     public getInfo = function(this: User): UserInfo {
         const info: UserInfo = {
