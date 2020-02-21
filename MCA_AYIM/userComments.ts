@@ -35,6 +35,9 @@ export class UserComment extends BaseEntity {
     @ManyToOne(type => User, user => user.reviews)
     reviewer: User;
 
+    @Column()
+    lastReviewedAt: Date;
+
     @CreateDateColumn()
     createdAt: Date;
 
