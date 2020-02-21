@@ -1,5 +1,6 @@
 import { Entity, BaseEntity, PrimaryColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { GuestRequest } from './guest';
+import { ModeDivision } from './modeDivision';
 
 @Entity()
 export class Beatmap extends BaseEntity {
@@ -31,8 +32,11 @@ export class Beatmap extends BaseEntity {
     @Column()
     hpDrain: number;
 
-    @Column()
-    mode: Mode;
+    @ManyToOne(type => ModeDivision, modeDivision => modeDivision.beatmaps, { 
+        nullable: false,
+        eager: true,
+    })
+    mode: ModeDivision;
 
     @Column()
     circles: number;
@@ -106,11 +110,4 @@ export class Beatmap extends BaseEntity {
     @OneToMany(type => GuestRequest, guestRequest => guestRequest.beatmap)
     guestRequests: GuestRequest[]
 
-}
-
-export enum Mode {
-    "standard",
-    "taiko",
-    "fruits",
-    "mania"
 }

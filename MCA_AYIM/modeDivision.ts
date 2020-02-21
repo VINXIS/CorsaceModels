@@ -1,5 +1,6 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { UserComment } from './userComments';
+import { Beatmap } from './beatmap';
 
 @Entity()
 export class ModeDivision extends BaseEntity {
@@ -12,6 +13,9 @@ export class ModeDivision extends BaseEntity {
 
     @OneToMany(type => UserComment, userComment => userComment.mode)
     userComments: UserComment[];
+
+    @OneToMany(type => Beatmap, beatmap => beatmap.mode)
+    beatmaps: Beatmap[];
 
 }
 
