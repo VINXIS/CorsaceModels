@@ -1,5 +1,5 @@
 import { Entity, BaseEntity, PrimaryColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { GuestRequest } from './guest';
+import { GuestRequest } from './guestRequest';
 import { ModeDivision } from './modeDivision';
 
 @Entity()

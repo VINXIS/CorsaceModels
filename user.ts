@@ -2,7 +2,7 @@
 import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, OneToOne, JoinColumn, JoinTable } from "typeorm";
 import { DemeritReport } from "./demerits";
 import { Eligibility } from "./MCA_AYIM/eligibility";
-import { GuestRequest } from "./MCA_AYIM/guest";
+import { GuestRequest } from "./MCA_AYIM/guestRequest";
 import { UserComment } from "./MCA_AYIM/userComments";
 
 export class OAuth {

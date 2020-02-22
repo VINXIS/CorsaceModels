@@ -1,6 +1,7 @@
 import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, OneToOne, JoinTable, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../user";
-import { Beatmap, Mode } from "./beatmap";
+import { Beatmap } from "./beatmap";
+import { ModeDivision } from "./modeDivision";
 
 @Entity()
 export class GuestRequest extends BaseEntity {
@@ -11,17 +12,22 @@ export class GuestRequest extends BaseEntity {
     @Column({ type: "year" })
     year: number;
 
-    @Column()
-    mode: Mode;
+    @ManyToOne(type => ModeDivision, modeDivision => modeDivision.guestRequests, { 
+        nullable: false,
+        eager: true,
+    })
+    mode: ModeDivision;
 
     @Column()
     accepted: Status;
 
-    @OneToOne(type => User, user => user.guestRequest)
+    @OneToOne(type => User, user => user.guestRequest, {
+        nullable: false,
+    })
     user: User;
 
     @ManyToOne(type => Beatmap, beatmap => beatmap.guestRequests, {
-        eager: true
+        eager: true,
     })
     @JoinTable()
     beatmap: Beatmap
