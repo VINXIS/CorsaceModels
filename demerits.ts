@@ -7,7 +7,7 @@ export class DemeritReport extends BaseEntity {
     @PrimaryGeneratedColumn()
     ID: number;
     
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
     reportDate: Date;
 
     @Column({ type: "longtext", default: "" })
@@ -25,8 +25,8 @@ export class DemeritReport extends BaseEntity {
             user: this.user.osu.username,
             reason: this.reason,
             amount: this.amount,
-        }
-        return info
+        };
+        return info;
     }
 }
 

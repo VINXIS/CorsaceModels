@@ -25,7 +25,7 @@ export class OAuth {
     @CreateDateColumn()
     dateAdded: Date;
 
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
     lastVerified: Date;
 
 }
@@ -45,20 +45,20 @@ export class User extends BaseEntity {
     @CreateDateColumn()
     registered: Date;
     
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
     lastLogin: Date;
 
     @OneToMany(type => DemeritReport, demerit => demerit.user)
     demerits: DemeritReport[];
 
     @OneToOne(type => GuestRequest, guestRequest => guestRequest.user, {
-        eager: true
+        eager: true,
     })
     @JoinColumn()
     guestRequest: GuestRequest;
 
     @OneToMany(type => Eligibility, eligibility => eligibility.user, {
-        eager: true
+        eager: true,
     })
     @JoinTable()
     mca: Eligibility[];
@@ -91,9 +91,9 @@ export class User extends BaseEntity {
             joinDate: this.registered,
             lastLogin: this.lastLogin,
             mca: this.mca,
-            guestReq: this.guestRequest
-        }
-        return info
+            guestReq: this.guestRequest,
+        };
+        return info;
     }
 }
 

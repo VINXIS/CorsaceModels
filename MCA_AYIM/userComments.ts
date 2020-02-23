@@ -1,6 +1,6 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { User } from '../user';
-import { ModeDivision } from './modeDivision';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { User } from "../user";
+import { ModeDivision } from "./modeDivision";
 
 @Entity()
 export class UserComment extends BaseEntity {
@@ -8,7 +8,7 @@ export class UserComment extends BaseEntity {
     @PrimaryGeneratedColumn()
     ID: number;
 
-    @Column('text')
+    @Column("text")
     comment: string;
 
     @Column({ default: false })

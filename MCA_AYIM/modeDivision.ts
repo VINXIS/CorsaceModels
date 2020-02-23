@@ -1,12 +1,12 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { UserComment } from './userComments';
-import { Beatmap } from './beatmap';
-import { GuestRequest } from './guestRequest';
+import { Entity, BaseEntity, Column, OneToMany, PrimaryColumn } from "typeorm";
+import { UserComment } from "./userComments";
+import { Beatmap } from "./beatmap";
+import { GuestRequest } from "./guestRequest";
 
 @Entity()
 export class ModeDivision extends BaseEntity {
     
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     ID: number;
 
     @Column()
@@ -25,8 +25,8 @@ export class ModeDivision extends BaseEntity {
 
 export enum ModeDivisionType {
     Standard = 1,
-    Taiko = 2,
-    Fruits = 3,
-    Mania = 4,
-    Storyboard = 5,
+    Taiko,
+    Fruits,
+    Mania,
+    Storyboard,
 }
