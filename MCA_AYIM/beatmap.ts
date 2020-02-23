@@ -1,6 +1,7 @@
-import { Entity, BaseEntity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
-import { GuestRequest } from "./guestRequest";
-import { ModeDivision } from "./modeDivision";
+import { Entity, BaseEntity, PrimaryColumn, Column, ManyToOne, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import { GuestRequest } from './guestRequest';
+import { ModeDivision } from './modeDivision';
+import { Category } from './category';
 
 @Entity()
 export class Beatmap extends BaseEntity {
@@ -109,5 +110,9 @@ export class Beatmap extends BaseEntity {
 
     @OneToMany(type => GuestRequest, guestRequest => guestRequest.beatmap)
     guestRequests!: GuestRequest[];
+
+    @ManyToMany(type => Category, category => category.beatmaps)
+    @JoinTable()
+    categories!: Category[];
 
 }

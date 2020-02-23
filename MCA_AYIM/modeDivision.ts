@@ -1,11 +1,13 @@
-import { Entity, BaseEntity, Column, OneToMany, PrimaryColumn } from "typeorm";
-import { UserComment } from "./userComments";
-import { Beatmap } from "./beatmap";
-import { GuestRequest } from "./guestRequest";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { UserComment } from './userComments';
+import { Beatmap } from './beatmap';
+import { GuestRequest } from './guestRequest';
+import { Category } from './category';
 
 @Entity()
 export class ModeDivision extends BaseEntity {
     
+
     @PrimaryColumn()
     ID!: number;
 
@@ -20,6 +22,9 @@ export class ModeDivision extends BaseEntity {
 
     @OneToMany(type => Beatmap, beatmap => beatmap.mode)
     beatmaps!: Beatmap[];
+    
+    @OneToMany(type => Category, category => category.mode)
+    categories!: Category[];
 
 }
 
