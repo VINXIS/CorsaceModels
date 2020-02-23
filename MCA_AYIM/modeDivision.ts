@@ -7,19 +7,19 @@ import { GuestRequest } from "./guestRequest";
 export class ModeDivision extends BaseEntity {
     
     @PrimaryColumn()
-    ID: number;
+    ID!: number;
 
     @Column()
-    name: string;
+    name!: string;
 
     @OneToMany(type => GuestRequest, guestRequest => guestRequest.mode)
-    guestRequests: GuestRequest[];
+    guestRequests!: GuestRequest[];
 
     @OneToMany(type => UserComment, userComment => userComment.mode)
-    userComments: UserComment[];
+    userComments!: UserComment[];
 
     @OneToMany(type => Beatmap, beatmap => beatmap.mode)
-    beatmaps: Beatmap[];
+    beatmaps!: Beatmap[];
 
 }
 

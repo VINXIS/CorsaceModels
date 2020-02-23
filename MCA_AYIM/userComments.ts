@@ -6,42 +6,42 @@ import { ModeDivision } from "./modeDivision";
 export class UserComment extends BaseEntity {
     
     @PrimaryGeneratedColumn()
-    ID: number;
+    ID!: number;
 
     @Column("text")
-    comment: string;
+    comment!: string;
 
     @Column({ default: false })
-    isValid: boolean;
+    isValid!: boolean;
 
     @Column()
-    modeID: number;
+    modeID!: number;
 
-    @ManyToOne(type => ModeDivision, modeDivision => modeDivision.userComments, { 
+    @ManyToOne(type => ModeDivision, modeDivision => modeDivision.userComments, {
         nullable: false,
         eager: true,
     })
-    mode: ModeDivision;
+    mode!: ModeDivision;
     
     @Column()
-    commenterID: number;
+    commenterID!: number;
 
     @ManyToOne(type => User, user => user.commentsMade, { nullable: false })
-    commenter: User;
+    commenter!: User;
 
     @ManyToOne(type => User, user => user.commentsReceived, { nullable: false })
-    target: User;
+    target!: User;
 
     @ManyToOne(type => User, user => user.reviews)
-    reviewer: User;
+    reviewer!: User;
 
     @Column()
-    lastReviewedAt: Date;
+    lastReviewedAt!: Date;
 
     @CreateDateColumn()
-    createdAt: Date;
+    createdAt!: Date;
 
     @UpdateDateColumn()
-    updatedAt: Date;
+    updatedAt!: Date;
 
 }

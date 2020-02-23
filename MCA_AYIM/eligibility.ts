@@ -3,29 +3,30 @@ import { User } from "../user";
 
 @Entity()
 export class Eligibility extends BaseEntity {
+    [k: string]: any;
 
     @PrimaryGeneratedColumn()
-    ID: number;
+    ID!: number;
 
     @Column({ type: "year" })
-    year: number;
+    year!: number;
 
     @Column({ default: false })
-    standard: boolean;
+    standard!: boolean;
 
     @Column({ default: false })
-    taiko: boolean;
+    taiko!: boolean;
 
     @Column({ default: false })
-    fruits: boolean;
+    fruits!: boolean;
 
     @Column({ default: false })
-    mania: boolean;
+    mania!: boolean;
 
     @Column({ default: false })
-    storyboard: boolean;
+    storyboard!: boolean;
 
     @ManyToOne(type => User, user => user.mca)
-    user: User;
+    user!: User;
 
 }

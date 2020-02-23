@@ -7,30 +7,30 @@ import { ModeDivision } from "./modeDivision";
 export class GuestRequest extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    ID: number;
+    ID!: number;
 
     @Column({ type: "year" })
-    year: number;
+    year!: number;
 
-    @ManyToOne(type => ModeDivision, modeDivision => modeDivision.guestRequests, { 
+    @ManyToOne(type => ModeDivision, modeDivision => modeDivision.guestRequests, {
         nullable: false,
         eager: true,
     })
-    mode: ModeDivision;
+    mode!: ModeDivision;
 
     @Column()
-    accepted: Status;
+    accepted!: Status;
 
     @OneToOne(type => User, user => user.guestRequest, {
         nullable: false,
     })
-    user: User;
+    user!: User;
 
     @ManyToOne(type => Beatmap, beatmap => beatmap.guestRequests, {
         eager: true,
     })
     @JoinTable()
-    beatmap: Beatmap
+    beatmap!: Beatmap;
 
 }
 

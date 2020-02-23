@@ -8,25 +8,25 @@ import { UserComment } from "./MCA_AYIM/userComments";
 export class OAuth {
 
     @Column({ default: "" })
-    userID: string;
+    userID!: string;
 
     @Column({ default: "" })
-    username: string;
+    username!: string;
     
     @Column({ default: "" })
-    avatar: string;
+    avatar!: string;
 
     @Column({ type: "longtext", default: "" })
-    accessToken: string;
+    accessToken!: string;
 
     @Column({ type: "longtext", default: "" })
-    refreshToken: string;
+    refreshToken!: string;
 
     @CreateDateColumn()
-    dateAdded: Date;
+    dateAdded!: Date;
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
-    lastVerified: Date;
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    lastVerified!: Date;
 
 }
 
@@ -34,46 +34,46 @@ export class OAuth {
 export class User extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    ID: number;
+    ID!: number;
 
     @Column(type => OAuth)
-    discord: OAuth;
+    discord!: OAuth;
     
     @Column(type => OAuth)
-    osu: OAuth;
+    osu!: OAuth;
 
     @CreateDateColumn()
-    registered: Date;
+    registered!: Date;
     
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
-    lastLogin: Date;
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+    lastLogin!: Date;
 
     @OneToMany(type => DemeritReport, demerit => demerit.user)
-    demerits: DemeritReport[];
+    demerits!: DemeritReport[];
 
     @OneToOne(type => GuestRequest, guestRequest => guestRequest.user, {
         eager: true,
     })
     @JoinColumn()
-    guestRequest: GuestRequest;
+    guestRequest!: GuestRequest;
 
     @OneToMany(type => Eligibility, eligibility => eligibility.user, {
         eager: true,
     })
     @JoinTable()
-    mca: Eligibility[];
+    mca!: Eligibility[];
 
     @OneToMany(type => UserComment, userComment => userComment.commenter)
-    commentsMade: UserComment[];
+    commentsMade!: UserComment[];
 
     @OneToMany(type => UserComment, userComment => userComment.target)
-    commentsReceived: UserComment[];
+    commentsReceived!: UserComment[];
 
     @OneToMany(type => UserComment, userComment => userComment.reviewer)
-    reviews: UserComment[];
+    reviews!: UserComment[];
 
     @Column({ default: true })
-    canComment: boolean;
+    canComment!: boolean;
 
     public getInfo = function(this: User): UserInfo {
         const info: UserInfo = {
@@ -98,19 +98,19 @@ export class User extends BaseEntity {
 }
 
 export class UserInfo {
-    corsaceID: number;
-    discord: {
-        avatar: string,
-        userID: string,
-        username: string,
+    corsaceID!: number;
+    discord!: {
+        avatar: string;
+        userID: string;
+        username: string;
     };
-    osu: {
-        avatar: string,
-        userID: string,
-        username: string,
-    }
-    joinDate: Date;
-    lastLogin: Date;
-    mca: Eligibility[];
-    guestReq: GuestRequest;
+    osu!: {
+        avatar: string;
+        userID: string;
+        username: string;
+    };
+    joinDate!: Date;
+    lastLogin!: Date;
+    mca!: Eligibility[];
+    guestReq!: GuestRequest;
 }

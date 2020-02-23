@@ -6,108 +6,108 @@ import { ModeDivision } from "./modeDivision";
 export class Beatmap extends BaseEntity {
 
     @PrimaryColumn()
-    ID: number;
+    ID!: number;
 
     @Column()
-    setID: number;
+    setID!: number;
 
     @Column()
-    totalLength: number;
+    totalLength!: number;
 
     @Column()
-    hitLength: number;
+    hitLength!: number;
 
     @Column()
-    difficulty: string;
+    difficulty!: string;
 
     @Column()
-    circleSize: number;
+    circleSize!: number;
 
     @Column()
-    overallDifficulty: number;
+    overallDifficulty!: number;
 
     @Column()
-    approachRate: number;
+    approachRate!: number;
 
     @Column()
-    hpDrain: number;
+    hpDrain!: number;
 
-    @ManyToOne(type => ModeDivision, modeDivision => modeDivision.beatmaps, { 
+    @ManyToOne(type => ModeDivision, modeDivision => modeDivision.beatmaps, {
         nullable: false,
         eager: true,
     })
-    mode: ModeDivision;
+    mode!: ModeDivision;
 
     @Column()
-    circles: number;
+    circles!: number;
 
     @Column()
-    sliders: number;
+    sliders!: number;
 
     @Column()
-    spinners: number;
+    spinners!: number;
 
     @Column()
-    submitDate: Date;
+    submitDate!: Date;
 
     @Column()
-    approvedDate: Date;
+    approvedDate!: Date;
 
     @Column()
-    artist: string;
+    artist!: string;
 
     @Column()
-    title: string;
+    title!: string;
 
     @Column()
-    creator: string;
+    creator!: string;
 
     @Column()
-    creatorID: number;
+    creatorID!: number;
 
     @Column()
-    BPM: number;
+    BPM!: number;
 
     @Column()
-    genre: string;
+    genre!: string;
 
     @Column()
-    language: string;
+    language!: string;
 
     @Column()
-    favourites: number;
+    favourites!: number;
 
     @Column()
-    rating: number;
+    rating!: number;
 
     @Column({ default: false })
-    storyboard: boolean;
+    storyboard!: boolean;
 
     @Column({ default: false })
-    video: boolean;
+    video!: boolean;
 
     @Column()
-    playCount: number;
+    playCount!: number;
 
     @Column()
-    passCount: number;
+    passCount!: number;
 
     @Column({ nullable: true })
-    packs: string;
+    packs?: string;
 
     @Column({ nullable: true })
-    maxCombo: number;
+    maxCombo?: number;
 
     @Column({ nullable: true })
-    aimSR: number;
+    aimSR?: number;
 
     @Column({ nullable: true })
-    speedSR: number;
+    speedSR?: number;
 
     @Column()
-    totalSR: number;
+    totalSR!: number;
 
     @OneToMany(type => GuestRequest, guestRequest => guestRequest.beatmap)
-    guestRequests: GuestRequest[]
+    guestRequests!: GuestRequest[];
 
 }
