@@ -7,7 +7,8 @@ import { Category } from './category';
 @Entity()
 export class ModeDivision extends BaseEntity {
     
-    @PrimaryGeneratedColumn()
+
+    @PrimaryColumn()
     ID!: number;
 
     @Column()
@@ -29,8 +30,8 @@ export class ModeDivision extends BaseEntity {
 
 export enum ModeDivisionType {
     Standard = 1,
-    Taiko = 2,
-    Fruits = 3,
-    Mania = 4,
-    Storyboard = 5,
+    Taiko,
+    Fruits,
+    Mania,
+    Storyboard,
 }

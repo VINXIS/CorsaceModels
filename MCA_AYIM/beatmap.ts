@@ -21,19 +21,19 @@ export class Beatmap extends BaseEntity {
     @Column()
     difficulty!: string;
 
-    @Column()
+    @Column("double")
     circleSize!: number;
 
-    @Column()
+    @Column("double")
     overallDifficulty!: number;
 
-    @Column()
+    @Column("double")
     approachRate!: number;
 
-    @Column()
+    @Column("double")
     hpDrain!: number;
 
-    @ManyToOne(type => ModeDivision, modeDivision => modeDivision.beatmaps, { 
+    @ManyToOne(type => ModeDivision, modeDivision => modeDivision.beatmaps, {
         nullable: false,
         eager: true,
     })
@@ -66,7 +66,7 @@ export class Beatmap extends BaseEntity {
     @Column()
     creatorID!: number;
 
-    @Column()
+    @Column("double")
     BPM!: number;
 
     @Column()
@@ -78,7 +78,7 @@ export class Beatmap extends BaseEntity {
     @Column()
     favourites!: number;
 
-    @Column()
+    @Column("double")
     rating!: number;
 
     @Column({ default: false })
@@ -99,18 +99,18 @@ export class Beatmap extends BaseEntity {
     @Column({ nullable: true })
     maxCombo?: number;
 
-    @Column({ nullable: true })
+    @Column("double", { nullable: true })
     aimSR?: number;
 
-    @Column({ nullable: true })
+    @Column("double", { nullable: true })
     speedSR?: number;
 
-    @Column()
+    @Column("double")
     totalSR!: number;
 
     @OneToMany(type => GuestRequest, guestRequest => guestRequest.beatmap)
     guestRequests!: GuestRequest[];
-    
+
     @ManyToMany(type => Category, category => category.beatmaps)
     @JoinTable()
     categories!: Category[];
