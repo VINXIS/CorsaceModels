@@ -2,24 +2,28 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany } from 't
 import { UserComment } from './userComments';
 import { Beatmap } from './beatmap';
 import { GuestRequest } from './guestRequest';
+import { Category } from './category';
 
 @Entity()
 export class ModeDivision extends BaseEntity {
     
     @PrimaryGeneratedColumn()
-    ID: number;
+    ID!: number;
 
     @Column()
-    name: string;
+    name!: string;
 
     @OneToMany(type => GuestRequest, guestRequest => guestRequest.mode)
-    guestRequests: GuestRequest[];
+    guestRequests!: GuestRequest[];
 
     @OneToMany(type => UserComment, userComment => userComment.mode)
-    userComments: UserComment[];
+    userComments!: UserComment[];
 
     @OneToMany(type => Beatmap, beatmap => beatmap.mode)
-    beatmaps: Beatmap[];
+    beatmaps!: Beatmap[];
+    
+    @OneToMany(type => Category, category => category.mode)
+    categories!: Category[];
 
 }
 
