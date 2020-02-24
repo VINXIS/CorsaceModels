@@ -1,6 +1,6 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne } from 'typeorm';
-import { Beatmap } from './beatmap';
-import { ModeDivision } from './modeDivision';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne } from "typeorm";
+import { Beatmap } from "./beatmap";
+import { ModeDivision } from "./modeDivision";
 
 @Entity()
 export class Category extends BaseEntity {

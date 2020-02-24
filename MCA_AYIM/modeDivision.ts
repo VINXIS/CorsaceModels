@@ -1,8 +1,8 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { UserComment } from './userComments';
-import { Beatmap } from './beatmap';
-import { GuestRequest } from './guestRequest';
-import { Category } from './category';
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { UserComment } from "./userComments";
+import { Beatmap } from "./beatmap";
+import { GuestRequest } from "./guestRequest";
+import { Category } from "./category";
 
 @Entity()
 export class ModeDivision extends BaseEntity {
