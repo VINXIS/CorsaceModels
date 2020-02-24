@@ -1,4 +1,4 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Entity, BaseEntity, Column, OneToMany, PrimaryColumn } from "typeorm";
 import { UserComment } from "./userComments";
 import { Beatmap } from "./beatmap";
 import { GuestRequest } from "./guestRequest";
