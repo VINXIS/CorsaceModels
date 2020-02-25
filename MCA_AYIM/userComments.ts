@@ -11,6 +11,9 @@ export class UserComment extends BaseEntity {
     @Column("text")
     comment!: string;
 
+    @Column({ type: "year" })
+    year!: number;
+
     @Column({ default: false })
     isValid!: boolean;
 
