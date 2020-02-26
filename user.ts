@@ -1,5 +1,5 @@
 
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, OneToOne, JoinColumn, JoinTable } from "typeorm";
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, OneToOne, JoinColumn, JoinTable, ManyToOne } from "typeorm";
 import { DemeritReport } from "./demerits";
 import { Eligibility } from "./MCA_AYIM/eligibility";
 import { GuestRequest } from "./MCA_AYIM/guestRequest";
@@ -30,6 +30,23 @@ export class OAuth {
 
 }
 
+
+
+@Entity()
+export class UsernameChange extends BaseEntity {
+
+    @PrimaryGeneratedColumn()
+    ID!: number;
+
+    @Column()
+    name!: string;
+
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    @ManyToOne(type => User, user => user.otherNames)
+    user!: User;
+
+}
+
 @Entity()
 export class User extends BaseEntity {
 
@@ -48,7 +65,14 @@ export class User extends BaseEntity {
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     lastLogin!: Date;
 
-    @OneToMany(type => DemeritReport, demerit => demerit.user)
+    @OneToMany(type => UsernameChange, change => change.user, {
+        eager: true,
+    })
+    otherNames!: UsernameChange[];
+
+    @OneToMany(type => DemeritReport, demerit => demerit.user, {
+        eager: true,
+    })
     demerits!: DemeritReport[];
 
     @OneToOne(type => GuestRequest, guestRequest => guestRequest.user, {
@@ -87,6 +111,7 @@ export class User extends BaseEntity {
                 avatar: this.osu.avatar,
                 userID: this.osu.userID,
                 username: this.osu.username,
+                otherNames: this.otherNames,
             },
             joinDate: this.registered,
             lastLogin: this.lastLogin,
@@ -108,6 +133,7 @@ export class UserInfo {
         avatar: string;
         userID: string;
         username: string;
+        otherNames: UsernameChange[];
     };
     joinDate!: Date;
     lastLogin!: Date;
