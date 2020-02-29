@@ -4,6 +4,8 @@ import { DemeritReport } from "./demerits";
 import { Eligibility } from "./MCA_AYIM/eligibility";
 import { GuestRequest } from "./MCA_AYIM/guestRequest";
 import { UserComment } from "./MCA_AYIM/userComments";
+import { Nomination } from "./MCA_AYIM/nomination";
+import { Vote } from "./MCA_AYIM/vote";
 
 export class OAuth {
 
@@ -74,7 +76,19 @@ export class User extends BaseEntity {
 
     @Column({ default: true })
     canComment!: boolean;
+    
+    @OneToMany(type => Nomination, nomination => nomination.nominator)
+    nominations!: Nomination[];
+    
+    @OneToMany(type => Nomination, nomination => nomination.user)
+    nominationsReceived!: Nomination[];
 
+    @OneToMany(type => Vote, vote => vote.voter)
+    votes!: Vote[];
+    
+    @OneToMany(type => Vote, vote => vote.user)
+    votesReceived!: Vote[];
+    
     public getInfo = function(this: User): UserInfo {
         const info: UserInfo = {
             corsaceID: this.ID,

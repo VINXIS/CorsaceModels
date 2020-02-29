@@ -1,7 +1,7 @@
-import { Entity, BaseEntity, PrimaryColumn, Column, ManyToOne, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import { Entity, BaseEntity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
 import { GuestRequest } from "./guestRequest";
 import { ModeDivision } from "./modeDivision";
-import { Category } from "./category";
+import { Beatmapset } from "./beatmapset";
 
 @Entity()
 export class Beatmap extends BaseEntity {
@@ -10,7 +10,10 @@ export class Beatmap extends BaseEntity {
     ID!: number;
 
     @Column()
-    setID!: number;
+    beatmapsetID!: number;
+
+    @ManyToOne(type => Beatmapset, beatmapset => beatmapset.beatmaps)
+    beatmapset!: Beatmapset;
 
     @Column()
     totalLength!: number;
@@ -48,36 +51,6 @@ export class Beatmap extends BaseEntity {
     @Column()
     spinners!: number;
 
-    @Column()
-    submitDate!: Date;
-
-    @Column()
-    approvedDate!: Date;
-
-    @Column()
-    artist!: string;
-
-    @Column()
-    title!: string;
-
-    @Column()
-    creator!: string;
-
-    @Column()
-    creatorID!: number;
-
-    @Column("double")
-    BPM!: number;
-
-    @Column()
-    genre!: string;
-
-    @Column()
-    language!: string;
-
-    @Column()
-    favourites!: number;
-
     @Column("double")
     rating!: number;
 
@@ -110,9 +83,5 @@ export class Beatmap extends BaseEntity {
 
     @OneToMany(type => GuestRequest, guestRequest => guestRequest.beatmap)
     guestRequests!: GuestRequest[];
-
-    @ManyToMany(type => Category, category => category.beatmaps)
-    @JoinTable()
-    categories!: Category[];
 
 }
