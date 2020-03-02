@@ -21,6 +21,9 @@ export class Category extends BaseEntity {
     maxNominations!: number;
     
     @Column()
+    isRequired!: boolean;
+    
+    @Column()
     sectionID!: number;
 
     @ManyToOne(type => CategorySection, categorySection => categorySection.categories, {
