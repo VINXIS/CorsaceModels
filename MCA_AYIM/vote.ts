@@ -30,5 +30,8 @@ export class Vote extends BaseEntity {
 
     @ManyToOne(type => Beatmapset, Beatmapset => Beatmapset.votesReceived)
     beatmapset?: Beatmapset;
+
+    @Column()
+    points!: number;
     
 }
