@@ -32,6 +32,6 @@ export class Vote extends BaseEntity {
     beatmapset?: Beatmapset;
 
     @Column()
-    points!: number;
+    choice!: number;
     
 }
