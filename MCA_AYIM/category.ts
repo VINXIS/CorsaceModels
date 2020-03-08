@@ -1,6 +1,9 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne } from "typeorm";
-import { Beatmap } from "./beatmap";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, OneToMany } from "typeorm";
 import { ModeDivision } from "./modeDivision";
+import { Beatmapset } from "./beatmapset";
+import { Nomination } from "./nomination";
+import { CategorySection } from "./categorySection";
+import { Vote } from "./vote";
 
 @Entity()
 export class Category extends BaseEntity {
@@ -15,6 +18,21 @@ export class Category extends BaseEntity {
     isAutomatic!: boolean;
     
     @Column()
+    maxNominations!: number;
+    
+    @Column()
+    isRequired!: boolean;
+    
+    @Column()
+    sectionID!: number;
+
+    @ManyToOne(type => CategorySection, categorySection => categorySection.categories, {
+        nullable: false,
+        eager: true,
+    })
+    section!: CategorySection;
+
+    @Column()
     modeID!: number;
     
     @ManyToOne(type => ModeDivision, modeDivision => modeDivision.categories, {
@@ -23,7 +41,13 @@ export class Category extends BaseEntity {
     })
     mode!: ModeDivision;
 
-    @ManyToMany(type => Beatmap, beatmap => beatmap.categories)
-    beatmaps!: Beatmap[];
+    @ManyToMany(type => Beatmapset, beatmapset => beatmapset.categories)
+    beatmapsets!: Beatmapset[];
+
+    @OneToMany(type => Nomination, nomination => nomination.category)
+    nominations!: Nomination[];
     
+    @OneToMany(type => Vote, vote => vote.category)
+    votes!: Vote[];
+
 }
