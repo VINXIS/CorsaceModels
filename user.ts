@@ -4,6 +4,7 @@ import { DemeritReport } from "./demerits";
 import { Eligibility } from "./MCA_AYIM/eligibility";
 import { GuestRequest } from "./MCA_AYIM/guestRequest";
 import { UserComment } from "./MCA_AYIM/userComments";
+import { UsernameChange } from "./usernameChange";
 import { Nomination } from "./MCA_AYIM/nomination";
 import { Vote } from "./MCA_AYIM/vote";
 
@@ -29,23 +30,6 @@ export class OAuth {
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     lastVerified!: Date;
-
-}
-
-
-
-@Entity()
-export class UsernameChange extends BaseEntity {
-
-    @PrimaryGeneratedColumn()
-    ID!: number;
-
-    @Column()
-    name!: string;
-
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    @ManyToOne(type => User, user => user.otherNames)
-    user!: User;
 
 }
 
