@@ -1,8 +1,9 @@
-import { Entity, BaseEntity, PrimaryColumn, OneToMany, ManyToMany, JoinTable, Column } from "typeorm";
+import { Entity, BaseEntity, PrimaryColumn, OneToMany, ManyToMany, JoinTable, Column, ManyToOne } from "typeorm";
 import { Beatmap } from "./beatmap";
 import { Nomination } from "./nomination";
 import { Category } from "./category";
 import { Vote } from "./vote";
+import { User } from "../user";
 
 @Entity()
 export class Beatmapset extends BaseEntity {
@@ -15,12 +16,6 @@ export class Beatmapset extends BaseEntity {
 
     @Column()
     title!: string;
-
-    @Column()
-    creator!: string;
-
-    @Column()
-    creatorID!: number;
 
     @Column()
     submitDate!: Date;
@@ -46,6 +41,9 @@ export class Beatmapset extends BaseEntity {
     @ManyToMany(type => Category, category => category.beatmapsets)
     @JoinTable()
     categories!: Category[];
+
+    @ManyToOne(type => User, user => user.beatmapsets)
+    creator!: User;
     
     @OneToMany(type => Nomination, nomination => nomination.beatmapset)
     nominationsReceived!: Nomination[];

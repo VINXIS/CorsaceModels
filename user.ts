@@ -1,12 +1,13 @@
 
 import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, OneToOne, JoinColumn, JoinTable, ManyToOne } from "typeorm";
 import { DemeritReport } from "./demerits";
-import { Eligibility } from "./MCA_AYIM/eligibility";
+import { MCAEligibility } from "./MCA_AYIM/mcaEligibility";
 import { GuestRequest } from "./MCA_AYIM/guestRequest";
 import { UserComment } from "./MCA_AYIM/userComments";
 import { UsernameChange } from "./usernameChange";
 import { Nomination } from "./MCA_AYIM/nomination";
 import { Vote } from "./MCA_AYIM/vote";
+import { Beatmapset } from "./MCA_AYIM/beatmapset";
 
 export class OAuth {
 
@@ -67,11 +68,14 @@ export class User extends BaseEntity {
     @JoinColumn()
     guestRequest!: GuestRequest;
 
-    @OneToMany(type => Eligibility, eligibility => eligibility.user, {
+    @OneToMany(type => MCAEligibility, eligibility => eligibility.user, {
         eager: true,
     })
     @JoinTable()
-    mca!: Eligibility[];
+    mcaEligibility!: MCAEligibility[];
+
+    @OneToMany(type => Beatmapset, set => set.creator)
+    beatmapsets!: Beatmapset[];
 
     @OneToMany(type => UserComment, userComment => userComment.commenter)
     commentsMade!: UserComment[];
@@ -113,7 +117,7 @@ export class User extends BaseEntity {
             },
             joinDate: this.registered,
             lastLogin: this.lastLogin,
-            mca: this.mca,
+            mcaEligibility: this.mcaEligibility,
             guestReq: this.guestRequest,
         };
         return info;
@@ -135,6 +139,6 @@ export class UserInfo {
     };
     joinDate!: Date;
     lastLogin!: Date;
-    mca!: Eligibility[];
+    mcaEligibility!: MCAEligibility[];
     guestReq!: GuestRequest;
 }

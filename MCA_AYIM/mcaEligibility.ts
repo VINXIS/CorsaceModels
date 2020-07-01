@@ -2,7 +2,7 @@ import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, PrimaryGeneratedC
 import { User } from "../user";
 
 @Entity()
-export class Eligibility extends BaseEntity {
+export class MCAEligibility extends BaseEntity {
     [k: string]: any;
 
     @PrimaryGeneratedColumn()
@@ -26,7 +26,7 @@ export class Eligibility extends BaseEntity {
     @Column({ default: false })
     storyboard!: boolean;
 
-    @ManyToOne(type => User, user => user.mca)
+    @ManyToOne(type => User, user => user.mcaEligibility)
     user!: User;
 
 }
