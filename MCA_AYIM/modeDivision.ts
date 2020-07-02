@@ -6,7 +6,6 @@ import { Category } from "./category";
 
 @Entity()
 export class ModeDivision extends BaseEntity {
-    
 
     @PrimaryColumn()
     ID!: number;

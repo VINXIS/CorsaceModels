@@ -35,7 +35,9 @@ export class Beatmapset extends BaseEntity {
     @Column()
     favourites!: number;
     
-    @OneToMany(type => Beatmap, beatmap => beatmap.beatmapset)
+    @OneToMany(type => Beatmap, beatmap => beatmap.beatmapset, {
+        eager: true,
+    })
     beatmaps!: Beatmap[];
     
     @ManyToMany(type => Category, category => category.beatmapsets)
