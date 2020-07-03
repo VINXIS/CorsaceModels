@@ -19,7 +19,7 @@ export class GuestRequest extends BaseEntity {
     mode!: ModeDivision;
 
     @Column()
-    accepted!: Status;
+    accepted!: RequestStatus;
 
     @OneToOne(type => User, user => user.guestRequest, {
         nullable: false,
@@ -34,7 +34,7 @@ export class GuestRequest extends BaseEntity {
 
 }
 
-export enum Status {
+export enum RequestStatus {
     Pending,
     Accepted,
     Rejected
