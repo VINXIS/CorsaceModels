@@ -2,7 +2,6 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToO
 import { ModeDivision } from "./modeDivision";
 import { Beatmapset } from "./beatmapset";
 import { Nomination } from "./nomination";
-import { CategorySection } from "./categorySection";
 import { Vote } from "./vote";
 
 @Entity()
@@ -14,6 +13,12 @@ export class Category extends BaseEntity {
     @Column()
     name!: string;
 
+    @Column({ 
+        type: "year",
+        nullable: false, 
+    })
+    year!: number;
+
     @Column({ default: true })
     isAutomatic!: boolean;
     
@@ -22,15 +27,9 @@ export class Category extends BaseEntity {
     
     @Column()
     isRequired!: boolean;
-    
-    @Column()
-    sectionID!: number;
 
-    @ManyToOne(type => CategorySection, categorySection => categorySection.categories, {
-        nullable: false,
-        eager: true,
-    })
-    section!: CategorySection;
+    @Column()
+    type!: CategoryType;
 
     @Column()
     modeID!: number;
@@ -50,4 +49,10 @@ export class Category extends BaseEntity {
     @OneToMany(type => Vote, vote => vote.category)
     votes!: Vote[];
 
+}
+
+
+export enum CategoryType {
+    Beatmapsets,
+    Users,
 }
