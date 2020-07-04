@@ -13,6 +13,9 @@ export class Category extends BaseEntity {
     @Column()
     name!: string;
 
+    @Column()
+    description!: string;
+
     @Column({ 
         type: "year",
         nullable: false, 
