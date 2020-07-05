@@ -8,6 +8,11 @@ import { UsernameChange } from "./usernameChange";
 import { Nomination } from "./MCA_AYIM/nomination";
 import { Vote } from "./MCA_AYIM/vote";
 import { Beatmapset } from "./MCA_AYIM/beatmapset";
+import { discordGuild } from "../CorsaceServer/discord";
+import { Config } from "../config";
+
+// General middlewares
+const config = new Config();
 
 export class OAuth {
 
@@ -101,7 +106,8 @@ export class User extends BaseEntity {
     @OneToMany(type => Vote, vote => vote.user)
     votesReceived!: Vote[];
     
-    public getInfo = function(this: User): UserInfo {
+    public getInfo = async function(this: User): Promise<UserInfo> {
+        const member = await discordGuild.fetchMember(this.discord.userID);
         const info: UserInfo = {
             corsaceID: this.ID,
             discord: {
@@ -115,30 +121,86 @@ export class User extends BaseEntity {
                 username: this.osu.username,
                 otherNames: this.otherNames,
             },
+            staff: {
+                corsace: member && member.roles.has(config.discord.roles.corsace.corsace),
+                headStaff: member && member.roles.has(config.discord.roles.corsace.headStaff),
+                staff: member && member.roles.has(config.discord.roles.corsace.staff),
+            },
             joinDate: this.registered,
             lastLogin: this.lastLogin,
-            mcaEligibility: this.mcaEligibility,
             guestReq: this.guestRequest,
         };
         return info;
     }
+
+    public getMCAInfo = async function(this: User): Promise<UserMCAInfo> {
+        const member = await discordGuild.fetchMember(this.discord.userID);
+        const info = await this.getInfo();
+        const mcaInfo: UserMCAInfo = {
+            corsaceID: this.ID,
+            discord: {
+                avatar: "https://cdn.discordapp.com/avatars/" + this.discord.userID + "/" + this.discord.avatar + ".png",
+                userID: this.discord.userID,
+                username: this.discord.username,
+            },
+            osu: {
+                avatar: this.osu.avatar,
+                userID: this.osu.userID,
+                username: this.osu.username,
+                otherNames: this.otherNames,
+            },
+            staff: {
+                corsace: member && member.roles.has(config.discord.roles.corsace.corsace),
+                headStaff: member && member.roles.has(config.discord.roles.corsace.headStaff),
+                staff: member && member.roles.has(config.discord.roles.corsace.staff),
+            },
+            joinDate: this.registered,
+            lastLogin: this.lastLogin,
+            guestReq: this.guestRequest,
+            eligibility: this.mcaEligibility,
+            mcaStaff: {
+                standard: member && member.roles.has(config.discord.roles.mca.standard),
+                taiko: member && member.roles.has(config.discord.roles.mca.taiko),
+                fruits: member && member.roles.has(config.discord.roles.mca.fruits),
+                mania: member && member.roles.has(config.discord.roles.mca.mania),
+                storyboard: member && member.roles.has(config.discord.roles.mca.storyboard),
+            },
+        };
+
+        return mcaInfo;
+    }
 }
 
-export class UserInfo {
-    corsaceID!: number;
-    discord!: {
+export interface UserMCAInfo extends UserInfo {
+    eligibility: MCAEligibility[];
+    mcaStaff: {
+        standard: boolean;
+        taiko: boolean;
+        fruits: boolean;
+        mania: boolean;
+        storyboard: boolean;
+    }
+}
+
+export interface UserInfo {
+    corsaceID: number;
+    discord: {
         avatar: string;
         userID: string;
         username: string;
     };
-    osu!: {
+    osu: {
         avatar: string;
         userID: string;
         username: string;
         otherNames: UsernameChange[];
     };
-    joinDate!: Date;
-    lastLogin!: Date;
-    mcaEligibility!: MCAEligibility[];
-    guestReq!: GuestRequest;
+    staff: {
+        corsace: boolean;
+        headStaff: boolean;
+        staff: boolean;
+    };
+    joinDate: Date;
+    lastLogin: Date;
+    guestReq: GuestRequest;
 }
