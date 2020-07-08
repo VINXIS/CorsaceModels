@@ -23,9 +23,6 @@ export class MCAEligibility extends BaseEntity {
     @Column({ default: false })
     mania!: boolean;
 
-    @Column({ default: false })
-    storyboard!: boolean;
-
     @ManyToOne(type => User, user => user.mcaEligibility)
     user!: User;
 
