@@ -10,6 +10,7 @@ import { Vote } from "./MCA_AYIM/vote";
 import { Beatmapset } from "./MCA_AYIM/beatmapset";
 import { discordGuild } from "../CorsaceServer/discord";
 import { Config } from "../config";
+import { GuildMember } from "discord.js";
 
 // General middlewares
 const config = new Config();
@@ -110,7 +111,9 @@ export class User extends BaseEntity {
     votesReceived!: Vote[];
     
     public getInfo = async function(this: User): Promise<UserInfo> {
-        const member = await discordGuild.fetchMember(this.discord.userID);
+        let member: GuildMember | undefined;
+        if (this.discord?.userID)
+            member = await discordGuild.fetchMember(this.discord.userID);
         const info: UserInfo = {
             corsaceID: this.ID,
             discord: {
@@ -125,9 +128,9 @@ export class User extends BaseEntity {
                 otherNames: this.otherNames,
             },
             staff: {
-                corsace: member && member.roles.has(config.discord.roles.corsace.corsace),
-                headStaff: member && member.roles.has(config.discord.roles.corsace.headStaff),
-                staff: member && member.roles.has(config.discord.roles.corsace.staff),
+                corsace: member ? member.roles.has(config.discord.roles.corsace.corsace) : false,
+                headStaff: member ? member.roles.has(config.discord.roles.corsace.headStaff) : false,
+                staff: member ? member.roles.has(config.discord.roles.corsace.staff) : false,
             },
             joinDate: this.registered,
             lastLogin: this.lastLogin,
@@ -137,8 +140,9 @@ export class User extends BaseEntity {
     }
 
     public getMCAInfo = async function(this: User): Promise<UserMCAInfo> {
-        const member = await discordGuild.fetchMember(this.discord.userID);
-        const info = await this.getInfo();
+        let member: GuildMember | undefined;
+        if (this.discord?.userID)
+            member = await discordGuild.fetchMember(this.discord.userID);
         const mcaInfo: UserMCAInfo = {
             corsaceID: this.ID,
             discord: {
@@ -153,20 +157,20 @@ export class User extends BaseEntity {
                 otherNames: this.otherNames,
             },
             staff: {
-                corsace: member && member.roles.has(config.discord.roles.corsace.corsace),
-                headStaff: member && member.roles.has(config.discord.roles.corsace.headStaff),
-                staff: member && member.roles.has(config.discord.roles.corsace.staff),
+                corsace: member ? member.roles.has(config.discord.roles.corsace.corsace) : false,
+                headStaff: member ? member.roles.has(config.discord.roles.corsace.headStaff) : false,
+                staff: member ? member.roles.has(config.discord.roles.corsace.staff) : false,
             },
             joinDate: this.registered,
             lastLogin: this.lastLogin,
             guestReq: this.guestRequest,
             eligibility: this.mcaEligibility,
             mcaStaff: {
-                standard: member && member.roles.has(config.discord.roles.mca.standard),
-                taiko: member && member.roles.has(config.discord.roles.mca.taiko),
-                fruits: member && member.roles.has(config.discord.roles.mca.fruits),
-                mania: member && member.roles.has(config.discord.roles.mca.mania),
-                storyboard: member && member.roles.has(config.discord.roles.mca.storyboard),
+                standard: member ? member.roles.has(config.discord.roles.mca.standard) : false,
+                taiko: member ? member.roles.has(config.discord.roles.mca.taiko) : false,
+                fruits: member ? member.roles.has(config.discord.roles.mca.fruits) : false,
+                mania: member ? member.roles.has(config.discord.roles.mca.mania) : false,
+                storyboard: member ? member.roles.has(config.discord.roles.mca.storyboard) : false,
             },
         };
 
