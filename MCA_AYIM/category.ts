@@ -3,6 +3,7 @@ import { ModeDivision } from "./modeDivision";
 import { Beatmapset } from "./beatmapset";
 import { Nomination } from "./nomination";
 import { Vote } from "./vote";
+import { MCA } from "./mca";
 
 @Entity()
 export class Category extends BaseEntity {
@@ -15,12 +16,6 @@ export class Category extends BaseEntity {
 
     @Column()
     description!: string;
-
-    @Column({ 
-        type: "year",
-        nullable: false, 
-    })
-    year!: number;
 
     @Column({ default: true })
     isAutomatic!: boolean;
@@ -42,6 +37,12 @@ export class Category extends BaseEntity {
         eager: true,
     })
     mode!: ModeDivision;
+
+    @ManyToOne(type => MCA, mca => mca.categories, {
+        nullable: false,
+        eager: true,
+    })
+    mca!: number;
 
     @ManyToMany(type => Beatmapset, beatmapset => beatmapset.categories)
     beatmapsets!: Beatmapset[];

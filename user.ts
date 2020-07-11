@@ -89,7 +89,10 @@ export class User extends BaseEntity {
     commentsReceived!: UserComment[];
 
     @OneToMany(type => UserComment, userComment => userComment.reviewer)
-    reviews!: UserComment[];
+    commentReviews!: UserComment[];
+
+    @OneToMany(type => Nomination, userComment => userComment.reviewer)
+    nominationReviews!: Nomination[];
 
     @Column({ default: true })
     canComment!: boolean;

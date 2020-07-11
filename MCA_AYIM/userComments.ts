@@ -32,7 +32,7 @@ export class UserComment extends BaseEntity {
     @ManyToOne(type => User, user => user.commentsReceived, { nullable: false })
     target!: User;
 
-    @ManyToOne(type => User, user => user.reviews)
+    @ManyToOne(type => User, user => user.commentReviews)
     reviewer!: User;
 
     @Column()
