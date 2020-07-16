@@ -4,10 +4,10 @@ import { Category } from "./category";
 export class Phase {
 
     @Column({ type: "timestamp" })
-    Start!: Date;
+    start!: Date;
 
     @Column({ type: "timestamp" })
-    End!: Date;
+    end!: Date;
 
 }
 
@@ -29,4 +29,24 @@ export class MCA extends BaseEntity {
     @OneToMany(type => Category, category => category.mca)
     categories!: Category[];
 
+    public getInfo = function(this: MCA): MCAInfo {
+        return {
+            name: this.year,
+            nomination: this.nomination,
+            voting: this.voting,
+            results: this.results,
+            categories: this.categories,
+        };
+
+    }
+
+}
+
+
+export interface MCAInfo {
+    name: number;
+    nomination: Phase;
+    voting: Phase;
+    results: Date;
+    categories: Category[];
 }
