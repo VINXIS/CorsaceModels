@@ -10,7 +10,7 @@ import { Vote } from "./MCA_AYIM/vote";
 import { Beatmapset } from "./MCA_AYIM/beatmapset";
 import { Config } from "../config";
 import { GuildMember } from "discord.js";
-import discordClient from "../CorsaceServer/discord";
+import { discordGuild } from "../CorsaceServer/discord";
 
 // General middlewares
 const config = new Config();
@@ -113,7 +113,7 @@ export class User extends BaseEntity {
     public getInfo = async function(this: User): Promise<UserInfo> {
         let member: GuildMember | undefined;
         if (this.discord?.userID)
-            member = await discordClient.getGuild().fetchMember(this.discord.userID);
+            member = await discordGuild().fetchMember(this.discord.userID);
         const info: UserInfo = {
             corsaceID: this.ID,
             discord: {
@@ -142,7 +142,7 @@ export class User extends BaseEntity {
     public getMCAInfo = async function(this: User): Promise<UserMCAInfo> {
         let member: GuildMember | undefined;
         if (this.discord?.userID)
-            member = await discordClient.getGuild().fetchMember(this.discord.userID);
+            member = await discordGuild().fetchMember(this.discord.userID);
         const mcaInfo: UserMCAInfo = {
             corsaceID: this.ID,
             discord: {
