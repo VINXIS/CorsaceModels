@@ -39,10 +39,6 @@ export class Beatmapset extends BaseEntity {
         eager: true,
     })
     beatmaps!: Beatmap[];
-    
-    @ManyToMany(type => Category, category => category.beatmapsets)
-    @JoinTable()
-    categories!: Category[];
 
     @ManyToOne(type => User, user => user.beatmapsets)
     creator!: User;

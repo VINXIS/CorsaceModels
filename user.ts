@@ -1,5 +1,5 @@
 
-import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, OneToOne, JoinColumn, JoinTable, ManyToOne } from "typeorm";
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, OneToOne, JoinColumn, JoinTable, ManyToOne, ManyToMany } from "typeorm";
 import { DemeritReport } from "./demerits";
 import { MCAEligibility } from "./MCA_AYIM/mcaEligibility";
 import { GuestRequest } from "./MCA_AYIM/guestRequest";
@@ -8,9 +8,9 @@ import { UsernameChange } from "./usernameChange";
 import { Nomination } from "./MCA_AYIM/nomination";
 import { Vote } from "./MCA_AYIM/vote";
 import { Beatmapset } from "./MCA_AYIM/beatmapset";
-import { discordGuild } from "../CorsaceServer/discord";
 import { Config } from "../config";
 import { GuildMember } from "discord.js";
+import discordClient from "../CorsaceServer/discord";
 
 // General middlewares
 const config = new Config();
@@ -113,7 +113,7 @@ export class User extends BaseEntity {
     public getInfo = async function(this: User): Promise<UserInfo> {
         let member: GuildMember | undefined;
         if (this.discord?.userID)
-            member = await discordGuild.fetchMember(this.discord.userID);
+            member = await discordClient.getGuild().fetchMember(this.discord.userID);
         const info: UserInfo = {
             corsaceID: this.ID,
             discord: {
@@ -142,7 +142,7 @@ export class User extends BaseEntity {
     public getMCAInfo = async function(this: User): Promise<UserMCAInfo> {
         let member: GuildMember | undefined;
         if (this.discord?.userID)
-            member = await discordGuild.fetchMember(this.discord.userID);
+            member = await discordClient.getGuild().fetchMember(this.discord.userID);
         const mcaInfo: UserMCAInfo = {
             corsaceID: this.ID,
             discord: {
@@ -158,8 +158,8 @@ export class User extends BaseEntity {
             },
             staff: {
                 corsace: member ? member.roles.has(config.discord.roles.corsace.corsace) : false,
-                headStaff: member ? member.roles.has(config.discord.roles.corsace.headStaff) : false,
-                staff: member ? member.roles.has(config.discord.roles.corsace.staff) : false,
+                headStaff: member ? member.roles.has(config.discord.roles.corsace.corsace) || member.roles.has(config.discord.roles.corsace.headStaff) : false,
+                staff: member ? member.roles.has(config.discord.roles.corsace.corsace) || member.roles.has(config.discord.roles.corsace.headStaff) || member.roles.has(config.discord.roles.corsace.staff) : false,
             },
             joinDate: this.registered,
             lastLogin: this.lastLogin,

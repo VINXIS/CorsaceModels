@@ -37,9 +37,7 @@ export class MCA extends BaseEntity {
             results: this.results,
             categories: this.categories,
         };
-
     }
-
 }
 
 
