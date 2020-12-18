@@ -1,7 +1,6 @@
 import { Entity, BaseEntity, PrimaryColumn, OneToMany, ManyToMany, JoinTable, Column, ManyToOne } from "typeorm";
 import { Beatmap } from "./beatmap";
 import { Nomination } from "./nomination";
-import { Category } from "./category";
 import { Vote } from "./vote";
 import { User } from "../user";
 
@@ -34,6 +33,13 @@ export class Beatmapset extends BaseEntity {
     
     @Column()
     favourites!: number;
+
+    @Column({
+        type: "longtext",
+        charset: "utf8mb4",
+        collation: "utf8mb4_unicode_520_ci",
+    })
+    tags!: string;
     
     @OneToMany(type => Beatmap, beatmap => beatmap.beatmapset, {
         eager: true,
@@ -49,4 +55,22 @@ export class Beatmapset extends BaseEntity {
     @OneToMany(type => Vote, vote => vote.beatmapset)
     votesReceived!: Vote[];
 
+    public getInfo = function(this: Beatmapset, chosen = false): BeatmapsetInfo {
+        return {
+            id: this.ID,
+            artist: this.artist,
+            title: this.title,
+            hoster: this.creator.osu.username,
+            chosen,
+        };
+    }
+}
+
+
+export interface BeatmapsetInfo {
+    id: number;
+    artist: string;
+    title: string;
+    hoster: string;
+    chosen: boolean;
 }

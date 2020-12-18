@@ -17,7 +17,7 @@ const config = new Config();
 
 export class OAuth {
 
-    @Column({ default: "" })
+    @Column({ default: null })
     userID!: string;
 
     @Column({ default: "" })
@@ -109,11 +109,22 @@ export class User extends BaseEntity {
     
     @OneToMany(type => Vote, vote => vote.user)
     votesReceived!: Vote[];
+
+    public getCondensedInfo = function(this: User, chosen = false): UserCondensedInfo {
+        return {
+            corsaceID: this.ID,
+            avatar: this.osu.avatar + "?" + Math.round(Math.random()*1000000),
+            userID: this.osu.userID,
+            username: this.osu.username,
+            otherNames: this.otherNames.map(otherName => otherName.name),
+            chosen,
+        };
+    }
     
     public getInfo = async function(this: User): Promise<UserInfo> {
         let member: GuildMember | undefined;
         if (this.discord?.userID)
-            member = await discordGuild().fetchMember(this.discord.userID);
+            member = await (await discordGuild()).members.fetch(this.discord.userID);
         const info: UserInfo = {
             corsaceID: this.ID,
             discord: {
@@ -122,19 +133,18 @@ export class User extends BaseEntity {
                 username: this.discord.username,
             },
             osu: {
-                avatar: this.osu.avatar,
+                avatar: this.osu.avatar + "?" + Math.round(Math.random()*1000000),
                 userID: this.osu.userID,
                 username: this.osu.username,
-                otherNames: this.otherNames,
+                otherNames: this.otherNames.map(otherName => otherName.name),
             },
             staff: {
-                corsace: member ? member.roles.has(config.discord.roles.corsace.corsace) : false,
-                headStaff: member ? member.roles.has(config.discord.roles.corsace.headStaff) : false,
-                staff: member ? member.roles.has(config.discord.roles.corsace.staff) : false,
+                corsace: member ? member.roles.cache.has(config.discord.roles.corsace.corsace) : false,
+                headStaff: member ? member.roles.cache.has(config.discord.roles.corsace.headStaff) : false,
+                staff: member ? member.roles.cache.has(config.discord.roles.corsace.staff) : false,
             },
             joinDate: this.registered,
             lastLogin: this.lastLogin,
-            guestReq: this.guestRequest,
         };
         return info;
     }
@@ -142,36 +152,16 @@ export class User extends BaseEntity {
     public getMCAInfo = async function(this: User): Promise<UserMCAInfo> {
         let member: GuildMember | undefined;
         if (this.discord?.userID)
-            member = await discordGuild().fetchMember(this.discord.userID);
-        const mcaInfo: UserMCAInfo = {
-            corsaceID: this.ID,
-            discord: {
-                avatar: "https://cdn.discordapp.com/avatars/" + this.discord.userID + "/" + this.discord.avatar + ".png",
-                userID: this.discord.userID,
-                username: this.discord.username,
-            },
-            osu: {
-                avatar: this.osu.avatar,
-                userID: this.osu.userID,
-                username: this.osu.username,
-                otherNames: this.otherNames,
-            },
-            staff: {
-                corsace: member ? member.roles.has(config.discord.roles.corsace.corsace) : false,
-                headStaff: member ? member.roles.has(config.discord.roles.corsace.corsace) || member.roles.has(config.discord.roles.corsace.headStaff) : false,
-                staff: member ? member.roles.has(config.discord.roles.corsace.corsace) || member.roles.has(config.discord.roles.corsace.headStaff) || member.roles.has(config.discord.roles.corsace.staff) : false,
-            },
-            joinDate: this.registered,
-            lastLogin: this.lastLogin,
-            guestReq: this.guestRequest,
-            eligibility: this.mcaEligibility,
-            mcaStaff: {
-                standard: member ? member.roles.has(config.discord.roles.mca.standard) : false,
-                taiko: member ? member.roles.has(config.discord.roles.mca.taiko) : false,
-                fruits: member ? member.roles.has(config.discord.roles.mca.fruits) : false,
-                mania: member ? member.roles.has(config.discord.roles.mca.mania) : false,
-                storyboard: member ? member.roles.has(config.discord.roles.mca.storyboard) : false,
-            },
+            member = await (await discordGuild()).members.fetch(this.discord.userID);
+        const mcaInfo: UserMCAInfo = await this.getInfo() as UserMCAInfo;
+        mcaInfo.guestReq = this.guestRequest,
+        mcaInfo.eligibility = this.mcaEligibility,
+        mcaInfo.mcaStaff = {
+            standard: member ? member.roles.cache.has(config.discord.roles.mca.standard) : false,
+            taiko: member ? member.roles.cache.has(config.discord.roles.mca.taiko) : false,
+            fruits: member ? member.roles.cache.has(config.discord.roles.mca.fruits) : false,
+            mania: member ? member.roles.cache.has(config.discord.roles.mca.mania) : false,
+            storyboard: member ? member.roles.cache.has(config.discord.roles.mca.storyboard) : false,
         };
 
         return mcaInfo;
@@ -179,6 +169,7 @@ export class User extends BaseEntity {
 }
 
 export interface UserMCAInfo extends UserInfo {
+    guestReq: GuestRequest;
     eligibility: MCAEligibility[];
     mcaStaff: {
         standard: boolean;
@@ -200,7 +191,7 @@ export interface UserInfo {
         avatar: string;
         userID: string;
         username: string;
-        otherNames: UsernameChange[];
+        otherNames: string[];
     };
     staff: {
         corsace: boolean;
@@ -209,5 +200,13 @@ export interface UserInfo {
     };
     joinDate: Date;
     lastLogin: Date;
-    guestReq: GuestRequest;
+}
+
+export interface UserCondensedInfo {
+    corsaceID: number;
+    username: string;
+    avatar: string;
+    userID: string;
+    otherNames: string[];
+    chosen: boolean;
 }

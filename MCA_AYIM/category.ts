@@ -63,6 +63,10 @@ export class Category extends BaseEntity {
     }
 }
 
+export interface CategoryStageInfo extends CategoryInfo {
+    count: number;
+}
+
 export interface CategoryInfo {
     id: number;
     name: string;
