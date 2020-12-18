@@ -22,13 +22,13 @@ export class Nomination extends BaseEntity {
     @Column({ nullable: true })
     userID?: number;
 
-    @ManyToOne(type => User, user => user.nominationsReceived)
+    @ManyToOne(type => User, user => user.nominationsReceived, {eager: true})
     user?: User;
 
     @Column({ nullable: true })
     beatmapsetID?: number;
 
-    @ManyToOne(type => Beatmapset, Beatmapset => Beatmapset.nominationsReceived)
+    @ManyToOne(type => Beatmapset, Beatmapset => Beatmapset.nominationsReceived, {eager: true})
     beatmapset?: Beatmapset;
 
     @Column({ default: false })
@@ -37,6 +37,6 @@ export class Nomination extends BaseEntity {
     @ManyToOne(type => User, user => user.nominationReviews)
     reviewer!: User;
 
-    @Column()
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     lastReviewedAt!: Date;
 }
