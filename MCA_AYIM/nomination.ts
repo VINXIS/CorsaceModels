@@ -30,5 +30,13 @@ export class Nomination extends BaseEntity {
 
     @ManyToOne(type => Beatmapset, Beatmapset => Beatmapset.nominationsReceived)
     beatmapset?: Beatmapset;
+
+    @Column({ default: false })
+    isValid!: boolean;
     
+    @ManyToOne(type => User, user => user.nominationReviews)
+    reviewer!: User;
+
+    @Column()
+    lastReviewedAt!: Date;
 }

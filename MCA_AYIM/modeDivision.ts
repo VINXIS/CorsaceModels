@@ -28,9 +28,9 @@ export class ModeDivision extends BaseEntity {
 }
 
 export enum ModeDivisionType {
-    Standard = 1,
-    Taiko,
-    Fruits,
-    Mania,
-    Storyboard,
+    standard = 1,
+    taiko,
+    fruits,
+    mania,
+    storyboard,
 }
