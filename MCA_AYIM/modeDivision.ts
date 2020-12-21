@@ -1,6 +1,6 @@
 import { Entity, BaseEntity, Column, OneToMany, PrimaryColumn } from "typeorm";
 import { UserComment } from "./userComments";
-import { Beatmap } from "./beatmap";
+import { Beatmap } from "../beatmap";
 import { GuestRequest } from "./guestRequest";
 import { Category } from "./category";
 

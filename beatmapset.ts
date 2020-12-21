@@ -1,8 +1,8 @@
 import { Entity, BaseEntity, PrimaryColumn, OneToMany, ManyToMany, JoinTable, Column, ManyToOne } from "typeorm";
 import { Beatmap } from "./beatmap";
-import { Nomination } from "./nomination";
-import { Vote } from "./vote";
-import { User } from "../user";
+import { Nomination } from "./MCA_AYIM/nomination";
+import { Vote } from "./MCA_AYIM/vote";
+import { User } from "./user";
 
 @Entity()
 export class Beatmapset extends BaseEntity {

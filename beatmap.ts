@@ -1,6 +1,6 @@
 import { Entity, BaseEntity, PrimaryColumn, Column, ManyToOne, OneToMany } from "typeorm";
-import { GuestRequest } from "./guestRequest";
-import { ModeDivision } from "./modeDivision";
+import { GuestRequest } from "./MCA_AYIM/guestRequest";
+import { ModeDivision } from "./MCA_AYIM/modeDivision";
 import { Beatmapset } from "./beatmapset";
 
 @Entity()

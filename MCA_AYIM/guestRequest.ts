@@ -1,6 +1,6 @@
 import { Entity, Column, BaseEntity, ManyToOne, PrimaryColumn, OneToOne, JoinTable, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../user";
-import { Beatmap } from "./beatmap";
+import { Beatmap } from "../beatmap";
 import { ModeDivision } from "./modeDivision";
 
 @Entity()

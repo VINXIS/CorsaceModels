@@ -1,6 +1,6 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, OneToMany } from "typeorm";
 import { ModeDivision } from "./modeDivision";
-import { Beatmapset } from "./beatmapset";
+import { Beatmapset } from "../beatmapset";
 import { Nomination } from "./nomination";
 import { Vote } from "./vote";
 import { MCA } from "./mca";

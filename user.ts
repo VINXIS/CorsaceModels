@@ -7,7 +7,7 @@ import { UserComment } from "./MCA_AYIM/userComments";
 import { UsernameChange } from "./usernameChange";
 import { Nomination } from "./MCA_AYIM/nomination";
 import { Vote } from "./MCA_AYIM/vote";
-import { Beatmapset } from "./MCA_AYIM/beatmapset";
+import { Beatmapset } from "./beatmapset";
 import { Config } from "../config";
 import { GuildMember } from "discord.js";
 import { discordGuild } from "../CorsaceServer/discord";
