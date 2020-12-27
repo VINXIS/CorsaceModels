@@ -1,14 +1,43 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, OneToMany } from "typeorm";
 import { ModeDivision } from "./modeDivision";
-import { Beatmapset } from "../beatmapset";
 import { Nomination } from "./nomination";
 import { Vote } from "./vote";
 import { MCA } from "./mca";
-import { User } from "../user";
 
 export enum CategoryType {
     Beatmapsets,
     Users,
+}
+
+export class CategoryFilter {
+
+    @Column({ nullable: true })
+    minLength?: number;
+
+    @Column({ nullable: true })
+    maxLength?: number;
+
+    @Column({ nullable: true })
+    minBPM?: number;
+
+    @Column({ nullable: true })
+    maxBPM?: number;
+
+    @Column({ nullable: true })
+    minSR?: number;
+
+    @Column({ nullable: true })
+    maxSR?: number;
+
+    @Column({ nullable: true })
+    minCS?: number;
+
+    @Column({ nullable: true })
+    maxCS?: number;
+
+    @Column({ nullable: true })
+    rookie?: number;
+
 }
 
 @Entity()
@@ -26,8 +55,14 @@ export class Category extends BaseEntity {
     @Column()
     maxNominations!: number;
     
-    @Column()
+    @Column({ default: false })
     isRequired!: boolean;
+
+    @Column({ default: false })
+    requiresVetting!: boolean;
+
+    @Column(type => CategoryFilter)
+    filter?: CategoryFilter;
 
     @Column()
     type!: CategoryType;
@@ -57,9 +92,28 @@ export class Category extends BaseEntity {
             description: this.description,
             maxNominations: this.maxNominations,
             isRequired: this.isRequired,
+            requiresVetting: this.requiresVetting,
             type: CategoryType[this.type],
             mode: this.mode.name,
+            filter: this.filter ?? undefined, 
         };
+    }
+
+    public addFilter = function(this: Category, params?: any): void {
+        if (!params)
+            return;
+
+        const filter = new CategoryFilter;
+        filter.minLength = params.minLength ?? undefined;
+        filter.maxLength = params.maxLength ?? undefined;
+        filter.minBPM = params.minBPM ?? undefined;
+        filter.maxBPM = params.maxBPM ?? undefined;
+        filter.minSR = params.minSR ?? undefined;
+        filter.maxSR = params.maxSR ?? undefined;
+        filter.minCS = params.minCS ?? undefined;
+        filter.maxCS = params.maxCS ?? undefined;
+        filter.rookie = params.rookie ?? undefined;
+        this.filter = filter;
     }
 }
 
@@ -73,8 +127,11 @@ export interface CategoryInfo {
     description: string;
     maxNominations: number;
     isRequired: boolean;
+    requiresVetting: boolean;
     type: string;
     mode: string;
+
+    filter?: CategoryFilter;
 }
 
 export class CategoryGenerator {
@@ -104,7 +161,7 @@ export class CategoryGenerator {
         category.name = name;
         category.description = desc;
         category.maxNominations = 3;
-        category.isRequired = true;
+        category.isRequired = false;
         category.type = type;
         category.mode = mode;
         category.mca = mca;

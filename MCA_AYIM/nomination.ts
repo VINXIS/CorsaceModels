@@ -16,17 +16,12 @@ export class Nomination extends BaseEntity {
     
     @ManyToOne(type => Category, category => category.nominations, {
         nullable: false,
+        eager: true,
     })
     category!: Category;
 
-    @Column({ nullable: true })
-    userID?: number;
-
     @ManyToOne(type => User, user => user.nominationsReceived, {eager: true})
     user?: User;
-
-    @Column({ nullable: true })
-    beatmapsetID?: number;
 
     @ManyToOne(type => Beatmapset, Beatmapset => Beatmapset.nominationsReceived, {eager: true})
     beatmapset?: Beatmapset;
