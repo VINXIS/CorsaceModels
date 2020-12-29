@@ -95,6 +95,7 @@ export class Category extends BaseEntity {
             requiresVetting: this.requiresVetting,
             type: CategoryType[this.type],
             mode: this.mode.name,
+            isFiltered: this.filter && (this.filter.minLength || this.filter.maxLength || this.filter.minBPM || this.filter.maxBPM || this.filter.minSR || this.filter.maxSR || this.filter.minCS || this.filter.maxCS) ? true : false,
             filter: this.filter ?? undefined, 
         };
     }
@@ -131,6 +132,7 @@ export interface CategoryInfo {
     type: string;
     mode: string;
 
+    isFiltered: boolean;
     filter?: CategoryFilter;
 }
 
